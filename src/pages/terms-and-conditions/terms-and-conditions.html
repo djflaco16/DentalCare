@@ -1,0 +1,91 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title text-center>Terminos y condiciones</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+        <h1>Términos y Condiciones de uso</h1>
+        <ul>
+
+            <h2>1. Información importante</h2>
+            Debe leer cuidadosamente los siguientes términos y condiciones. La compra o uso de nuestros productos implica que usted ha leído y aceptado estos términos y condiciones. Las plantillas ofrecidas en esta web son creadas, presentadas, cobradas y enviadas por TemplateHelp.com, a través de sus propios sistemas técnicos (ajenos a Plantillas.com), y están sujetas a sus propios términos y condiciones.
+
+        </ul>
+        <ul>
+
+            2. Licencia
+            Nuestro sitio web le concede una licencia limitada no exclusiva para utilizar las plantillas web y otros productos vendidos en nuestro sitio web (los "productos") de acuerdo con estos términos y condiciones (la "licencia") acordados por nuestra compañía.
+
+
+            a) USO LIMITADO
+            Usted puede utilizar cada producto individual en un solo sitio web, perteneciendo éste a usted o a su cliente. Para hacer otro proyecto con el mismo diseño, deberá comprar la misma plantilla otra vez.
+
+
+            b) MODIFICACIONES
+            Se le autoriza a hacer cualquier modificación necesaria a nuestros productos para adecuarlos a sus propósitos.
+
+
+            c) USO NO AUTORIZADO
+            Usted no puede colocar uno de nuestros productos, modificado o sin modificar, en un disquete, CD, sitio web o ningún otro medio y ofrecerlos para la redistribución o la reventa de ningún tipo sin el consentimiento previo por escrito de nuestra compañía.
+
+
+            d) ASIGNABILIDAD
+            Usted no puede sub-licenciar, asignar, o transferir esta licencia a cualquier persona sin consentimiento escrito de nuestra compañía.
+
+
+            e) PROPIEDAD
+            Usted no puede declarar propiedad intelectual o exclusiva a ninguno de nuestros productos, modificado o sin modificar. Todos los productos son propiedad independiente de los proveedores del contenido.
+
+
+            Nuestros productos se proporcionan “tal cual” sin ningún tipo de garantía, expresa o implícita. En ningún caso seremos responsables de ningún daño incluyendo, pero no limitado a, daños directos, indirectos, especiales, fortuitos o consecuentes u otras pérdidas resultantes del uso o de la imposibilidad de utilizar nuestros productos.
+
+        </ul>
+        <ul>
+
+            3. Política de reembolso
+            Puesto que nuestra compañía está ofreciendo mercancías irrevocables no-tangibles, no realizamos reembolsos después de que se envíe el producto, el cual usted es responsable de entender antes de comprar cualquier artículo en nuestro sitio web. Por favor, asegúrese de haber leído cuidadosamente la sección de las 'fuentes disponibles’. Hacemos solamente excepciones con esta regla cuando la descripción no se ajusta al producto. El plazo para cualquier solicitud de reembolso es de una semana después de la fecha de adquisición.
+
+        </ul>
+        <ul>
+          4. Comprobación antifraude
+          La compra del cliente puede ser aplazada para la comprobación antifraude manual durante 10-20 minutos. También puede ser suspendida por más tiempo (alrededor de 20 horas) para una investigación más rigurosa, para evitar transacciones fraudulentas.
+        </ul>
+        <ul>
+          5. Instalación de los productos
+          La instalación de los productos que puedan requerirla (osCommerce, etc.) no está incluida en el precio. Si necesita servicios de instalación, puede contactar con nuestro Soporte Técnico.
+        </ul>
+        <ul>
+
+            <h5>Nuestra compañía se reserva los derechos de cambiar o de modificar estos términos sin previo aviso.</h5>
+
+        </ul>
+    </ion-row>
+    &nbsp;
+    &nbsp;
+    <ion-row radio-group [(ngModel)]="desition">
+      <ion-col>
+        <ion-item>
+          <ion-label>Acepto</ion-label>
+          <ion-radio value="acept"></ion-radio>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label>No acepto</ion-label>
+          <ion-radio value="notAcept"></ion-radio>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <button ion-button round block
+              (click)="aceptTerm()">Continuar
+      </button>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>

@@ -1,0 +1,12 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <ion-title text-center>Antecedentes</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-tabs color="{{theme}}">
+  <ion-tab tabIcon="people" tabTitle="Heredofamiliares" [root]="tab1" [rootParams]="data"></ion-tab>
+  <ion-tab tabIcon="beer" tabTitle="Patologicos" [root]="tab2" [rootParams]="data"></ion-tab>
+  <ion-tab tabIcon="medkit" tabTitle="Medicos" [root]="tab3" [rootParams]="data"></ion-tab>
+</ion-tabs>

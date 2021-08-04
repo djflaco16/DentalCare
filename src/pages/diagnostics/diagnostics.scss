@@ -1,0 +1,21 @@
+page-diagnostics {
+
+  .titleGrid{
+    background: #488aff;
+  }
+
+  .borderSolid .col{
+    // background: gray;
+    border:  solid black 1px;
+  }
+
+
+  .button-bot{
+    position: absolute;
+    bottom: 20px;
+    width: 200px;
+    left: 50%;
+    margin-left: -100px;
+  }
+
+}

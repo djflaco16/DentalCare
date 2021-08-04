@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-toolbar color="{{theme}}">
+    <button ion-button menuToggle right >
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="sesion.typeUser == 2" padding>
+  <ion-item>
+    <ion-avatar item-start>
+      <img src="assets/imgs/generals/sin_foto.jpeg" *ngIf="sesion.photo == null || sesion.photo == ''">
+      <img src="{{sesion.photo}}" *ngIf="sesion.photo != null && sesion.photo != ''">
+    </ion-avatar>
+    <h2>{{sesion.name}} {{sesion.aPat}} {{sesion.aMat}}</h2>
+    <h3>Activo desde: {{sesion.dateRegistry}}</h3>
+  </ion-item>
+  <ion-slides (ionSlideDidChange)="slideChanged()">
+      <ion-slide id="slideAppointment">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title color="{{theme}}">Proxima cita</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-scroll scrollY="true">
+                <div *ngFor="let appointment of jsonResponses.appointments">
+                  <button ion-item (click)="openAppointment(appointment.idAppointment)">
+                    <ion-avatar item-start>
+                      <img src="{{appointment.foto}}">
+                    </ion-avatar>
+                    <h3>Dr/Dra {{appointment.nombre}} {{appointment.paterno}}</h3>
+                    <h3>Contacto: {{appointment.tel}}</h3>
+                    <p *ngIf="appointment.cedula != 'empty'">Cedula: {{appointment.cedula}}</p>
+                    <p *ngIf="appointment.cedula == 'empty'">Cedula: En tramite</p>
+                  </button>
+                  <ion-item *ngIf="seeAppointent == appointment.idAppointment">
+                    <h3><ion-icon name="calendar" color="{{theme}}"></ion-icon>  Fecha: {{appointment.fecha}}</h3>
+                    <h3><ion-icon name="clock" color="{{theme}}"></ion-icon>  Horario: {{appointment.horaIni}} - {{appointment.horaFin}} </h3>
+                  </ion-item>
+                  <button ion-button round icon-end *ngIf="seeAppointent == appointment.idAppointment" color="danger" (click)="cancelAppointmentPX(appointment.idCita)">
+                    <ion-avatar >
+                      <ion-icon name="trash" > Cancelar cita</ion-icon>
+                    </ion-avatar>
+                  </button>
+                </div>
+              </ion-scroll>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-slide>
+      <ion-slide  id="slideHistory">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title color="{{theme}}">Datos personales</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-scroll scrollY="true">
+                <ion-item>
+                  <ion-label color="{{theme}}" floating><ion-icon name="person" class="margin-rigth" ></ion-icon>Nombre</ion-label>
+                  <ion-input [(ngModel)]="sesion.name" maxlength="50" disabled="true"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label color="{{theme}}" floating><ion-icon name="male" class="margin-rigth" ></ion-icon>Apellido paterno</ion-label>
+                  <ion-input  [(ngModel)]="sesion.aPat" maxlength="50"disabled="true" ></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label color="{{theme}}" floating><ion-icon name="female" class="margin-rigth" ></ion-icon>Apellido materno</ion-label>
+                  <ion-input  [(ngModel)]="sesion.aMat"  maxlength="50" disabled="true"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label color="{{theme}}" floating><ion-icon name="mail" class="margin-rigth" ></ion-icon>Email</ion-label>
+                  <ion-input  [(ngModel)]="sesion.correo" maxlength="50" disabled="true"></ion-input>
+                </ion-item>
+                <ion-item-divider color="{{theme}}">
+                  <ion-label>
+                    Direccion
+                  </ion-label>
+                </ion-item-divider>
+                <ion-item>
+                  <ion-label color="{{theme}}" floating class="margin-rigth">Calle</ion-label>
+                  <ion-input [(ngModel)]="sesion.calle" disabled="true"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label color="{{theme}}" floating>Número</ion-label>
+                  <ion-input  [(ngModel)]="sesion.numero" maxlength="6" disabled="true"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label color="{{theme}}" floating>Colonia</ion-label>
+                  <ion-input   [(ngModel)]="sesion.colonia"  maxlength="50" disabled="true"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label color="{{theme}}" floating>C.P.</ion-label>
+                  <ion-input [(ngModel)]="sesion.codigoPostal"  maxlength="5" disabled="true"></ion-input>
+                </ion-item>
+              </ion-scroll>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-slide>
+  </ion-slides>
+  <ion-item class="paginador">
+    <ion-icon name="calendar" color="{{theme}}" *ngIf="slideActive != 0" (click)="selectSlide(0)"></ion-icon>
+    <ion-icon name="calendar" color="{{theme}}" *ngIf="slideActive == 0" class="img-paginador"></ion-icon>
+    <ion-icon name="contact" color="{{theme}}" *ngIf="slideActive != 1"(click)="selectSlide(1)"></ion-icon>
+    <ion-icon name="contact" color="{{theme}}" *ngIf="slideActive == 1" class="img-paginador"></ion-icon>
+  </ion-item>
+</ion-content>
+<ion-tabs color="{{theme}}" *ngIf="sesion.typeUser == 1" selected-index="1">
+  <ion-tab tabIcon="people" tabTitle="Citas para hoy" [root]="tab1" [rootParams]="jsonResponses"></ion-tab>
+  <ion-tab tabIcon="time" tabTitle="Citas vencidas" [root]="tab2" [rootParams]="jsonResponses"></ion-tab>
+</ion-tabs>

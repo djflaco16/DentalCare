@@ -1,0 +1,44 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <ion-title text-center>Autorizacion  personal</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-card *ngFor="let petition of jsonResponses.petitions">
+      <ion-item (click)="showAuthorization(petition.name)">
+        <ion-avatar item-start>
+          <img src="petition.photo">
+        </ion-avatar>
+        <h2>Dr./Dra. {{petition.name}} </h2>
+        <p>{{petition.date}}</p>
+      </ion-item>
+      <ion-card-content *ngIf="petition.name == openAuth ">
+        <p>El Dr./ Dra. {{petition.name}} {{petition.lastName}} quiere acceder a su historial clinico, ¿desea darle autorizacion?</p>
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-start clear small (click)= "changeStatusAuth(petition,1)">
+              <ion-icon name="checkmark-circle"></ion-icon>
+              <div>Aceptar</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-start clear small (click)= "changeStatusAuth(petition,2)">
+              <ion-icon name="close-circle"></ion-icon>
+              <div>Rechazar</div>
+            </button>
+          </ion-col>
+          <!-- <ion-col center text-center>
+            <ion-note>
+              11h ago
+            </ion-note>
+          </ion-col> -->
+        </ion-row>
+      </ion-card-content>
+
+    </ion-card>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,102 @@
+
+
+<ion-menu [content]="content" id="main-menu">
+
+  <ion-header>
+    <ion-toolbar color="{{theme}}">
+      <ion-title  text-center >Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-card>
+      <ion-item  (click)="navPage(home)" color="{{theme}}">
+        <ion-icon name="home" item-start></ion-icon>
+        Principal
+        <ion-icon name="arrow-dropright" item-end></ion-icon>
+      </ion-item>
+    </ion-card>
+    <ion-card >
+      <ion-item  (click)="navPage(patients)" color="{{theme}}">
+        <ion-icon name="people" item-start></ion-icon>
+        Historiales
+        <ion-icon name="arrow-dropright" item-end></ion-icon>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item  (click)="navPage(appointments)" color="{{theme}}">
+        <ion-icon name="calendar" item-start></ion-icon>
+        Citas
+        <ion-icon name="arrow-dropright" item-end></ion-icon>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item  (click)="navPage(findPatients)" color="{{theme}}">
+        <ion-icon name="person-add" item-start></ion-icon>
+        Busqueda
+        <ion-icon name="arrow-dropright" item-end></ion-icon>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item  (click)="navPage(closeSesion)" color="{{theme}}">
+        <ion-icon name="log-out" item-start></ion-icon>
+        Cerrar sesion
+        <ion-icon name="arrow-dropright" item-end></ion-icon>
+      </ion-item>
+    </ion-card>
+  </ion-content>
+</ion-menu>
+
+<ion-menu [content]="content" id="main-menu-user">
+  <ion-header>
+    <ion-toolbar color="{{theme}}">
+      <ion-title text-center>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-card>
+      <ion-item (click)="navPage(home)" color="{{theme}}">
+        <ion-icon name="home" item-start></ion-icon>
+        Principal
+        <ion-icon name="arrow-dropright" item-end></ion-icon>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item  (click)="navPage(authorizations)" color="{{theme}}">
+        <ion-icon name="checkmark-circle-outline" item-start></ion-icon>
+        Autorizaciones
+        <ion-icon name="arrow-dropright" item-end></ion-icon>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item  (click)="navPage(expediente)" color="{{theme}}">
+        <ion-icon name="clipboard" item-start></ion-icon>
+        Expediente
+        <ion-icon name="arrow-dropright" item-end></ion-icon>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item  (click)="navPage(informedConsentPx)" color="{{theme}}">
+        <ion-icon name="pricetags" item-start></ion-icon>
+        Concentimiento informado
+        <ion-icon name="arrow-dropright" item-end></ion-icon>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item  (click)="navPage(appointmentPac)" color="{{theme}}">
+        <ion-icon name="calendar" item-start></ion-icon>
+        Citas
+        <ion-icon name="arrow-dropright" item-end></ion-icon>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item  (click)="navPage(closeSesion)" color="{{theme}}">
+        <ion-icon name="log-out" item-start></ion-icon>
+        Cerrar sesion
+        <ion-icon name="arrow-dropright" item-end></ion-icon>
+      </ion-item>
+    </ion-card>
+  </ion-content>
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

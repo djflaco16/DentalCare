@@ -1,0 +1,602 @@
+
+<ion-header>
+  <ion-navbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="formHeredoFamiliares">
+    <div>
+      <ion-segment formControlName="typePerson" [(ngModel)]="typePerson" color="{{theme}}">
+        <ion-segment-button value="father">
+          Padre
+        </ion-segment-button>
+        <ion-segment-button value="mother">
+          Madre
+        </ion-segment-button>
+        <ion-segment-button value="brother">
+          Hermanos
+        </ion-segment-button>
+
+      </ion-segment>
+      <ion-segment formControlName="typePerson" [(ngModel)]="typePerson" color="{{theme}}">
+        <ion-segment-button value="grandparentsFather">
+          Abuelos Paternos
+        </ion-segment-button>
+        <ion-segment-button value="grandparentsMother">
+          Abuelos Maternos
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <div [ngSwitch]="typePerson">
+      <ion-grid>
+        <div *ngSwitchDefault>
+          <p>
+            Seleccione un tipo de familiar .
+          </p>
+        </div>
+        <!-- Comienzan los div de los familiare -->
+        <div *ngSwitchCase="'father'" class="margin-top" radio-group formControlName="conditionFather" [(ngModel)]="conditionFather">
+          <ion-list-header color="primary">
+            Su padre esta vivo o finado
+          </ion-list-header>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Vivo</ion-label>
+                <ion-radio value="vivo" ></ion-radio>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label>Finado</ion-label>
+                <ion-radio value="finado"></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <div [ngSwitch]="conditionFather">
+            <div *ngSwitchCase="'vivo'">
+              <ion-row *ngIf="!getDatesSuccess">
+                <p>Seleccione las enfermedades que padece su padre</p>
+                <ion-item>
+                  <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseassesFather)" >Seleccionar...</button>
+                </ion-item>
+              </ion-row>
+              <ion-list class="margin-top" *ngIf="jsonInheridRelatives.diseassesFather.length > 0">
+                <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseassesFather">
+                  <ion-item>
+
+                    <h2>{{item.name}}</h2>
+                  </ion-item>
+                  <ion-item-options side="right" *ngIf="!getDatesSuccess">
+                    <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseassesFather)">
+                      <ion-icon name="trash"></ion-icon>
+                      Eliminar
+                    </button>
+                  </ion-item-options>
+                </ion-item-sliding>
+              </ion-list>
+            </div>
+            <div *ngSwitchCase="'finado'">
+              <ion-row *ngIf="!getDatesSuccess">
+                <ion-item>
+                  <ion-label color="theme">Selecciona la causa</ion-label>
+                  <ion-select formControlName="deathCauseFather" [(ngModel)]="deathCauseFather">
+                    <ion-option value="{{item.id}}" *ngFor="let item of jsonResponses.sufferings">{{item.name}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-row>
+              <ion-row *ngIf="!getDatesSuccess">
+                <p>Seleccione las enfermedades que padecio su padre</p>
+                <ion-item>
+                  <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseasesAfterDeathFather)" >Seleccionar...</button>
+                </ion-item>
+              </ion-row>
+              <ion-list class="margin-top" *ngIf="this.jsonInheridRelatives.diseasesAfterDeathFather.length > 0">
+                <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseasesAfterDeathFather">
+                  <ion-item>
+
+                    <h2>{{item.name}}</h2>
+                  </ion-item>
+                  <ion-item-options side="right" *ngIf="!getDatesSuccess">
+                    <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseasesAfterDeathFather)">
+                      <ion-icon name="trash"></ion-icon>
+                      Eliminar
+                    </button>
+                  </ion-item-options>
+                </ion-item-sliding>
+              </ion-list>
+            </div>
+          </div>
+        </div>
+        <!-- <div *ngSwitchCase="'mother'">Madre</div> -->
+        <div *ngSwitchCase="'mother'" class="margin-top" radio-group formControlName="conditionMother" [(ngModel)]="conditionMother">
+          <ion-list-header color="primary">
+            Su madre esta viva o finada
+          </ion-list-header>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Viva</ion-label>
+                <ion-radio value="viva"></ion-radio>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label>Finada</ion-label>
+                <ion-radio value="finada"></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <div [ngSwitch]="conditionMother">
+            <div *ngSwitchCase="'viva'">
+              <ion-row *ngIf="!getDatesSuccess">
+                <p>Seleccione las enfermedades que padece su madre</p>
+                <ion-item>
+                  <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseassesMother)" >Seleccionar...</button>
+                </ion-item>
+              </ion-row>
+              <ion-list class="margin-top" *ngIf="jsonInheridRelatives.diseassesMother.length > 0">
+                <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseassesMother">
+                  <ion-item>
+
+                    <h2>{{item.name}}</h2>
+                  </ion-item>
+                  <ion-item-options side="right" *ngIf="!getDatesSuccess">
+                    <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseassesMother)">
+                      <ion-icon name="trash"></ion-icon>
+                      Eliminar
+                    </button>
+                  </ion-item-options>
+                </ion-item-sliding>
+              </ion-list>
+            </div>
+            <div *ngSwitchCase="'finada'">
+              <ion-row *ngIf="!getDatesSuccess">
+                <ion-item>
+                  <ion-label color="theme">Selecciona la causa</ion-label>
+                  <ion-select formControlName="deathCauseMother" [(ngModel)]="deathCauseMother">
+                    <ion-option value="{{item.id}}" *ngFor="let item of jsonResponses.sufferings">{{item.name}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-row>
+              <ion-row *ngIf="!getDatesSuccess">
+                <p>Seleccione las enfermedades que padecio su padre</p>
+                <ion-item>
+                  <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseasesAfterDeathMother)" >Seleccionar...</button>
+                </ion-item>
+              </ion-row>
+              <ion-list class="margin-top" *ngIf="jsonInheridRelatives.diseasesAfterDeathMother.length > 0">
+                <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseasesAfterDeathMother">
+                  <ion-item>
+
+                    <h2>{{item.name}}</h2>
+                  </ion-item>
+                  <ion-item-options side="right" *ngIf="!getDatesSuccess">
+                    <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseasesAfterDeathMother)">
+                      <ion-icon name="trash"></ion-icon>
+                      Eliminar
+                    </button>
+                  </ion-item-options>
+                </ion-item-sliding>
+              </ion-list>
+            </div>
+          </div>
+        </div>
+        <!-- Generales -->
+        <!--><div *ngSwitchCase="'generals'" class="margin-top" >
+          <p>Seleccione las enfermedades mas comunes dentro de su familia</p>
+          <ion-item>
+            <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseassesGenerals)" >Seleccionar...</button>
+          </ion-item>
+          <ion-list class="margin-top" *ngIf="jsonInheridRelatives.diseassesGenerals.length > 0">
+            <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+            <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseassesGenerals">
+              <ion-item>
+
+                <h2>{{item.name}}</h2>
+              </ion-item>
+              <ion-item-options side="right">
+                <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseassesGenerals)">
+                  <ion-icon name="trash"></ion-icon>
+                  Eliminar
+                </button>
+              </ion-item-options>
+            </ion-item-sliding>
+          </ion-list>
+        </div></!-->
+
+        <!-- <div *ngSwitchCase="'brother'">Hermanos</div> -->
+        <div *ngSwitchCase="'brother'" class="margin-top" radio-group formControlName="conditionBrothers" [(ngModel)]="conditionBrothers">
+          <ion-list-header color="primary">
+            ¿Tiene hermanos vivos o finados?
+          </ion-list-header>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Si</ion-label>
+                <ion-radio value="si"></ion-radio>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label>No</ion-label>
+                <ion-radio value="no"></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <div [ngSwitch]="conditionBrothers">
+            <div *ngSwitchCase="'si'">
+              <ion-row *ngIf="!getDatesSuccess">
+                <p>Seleccione las enfermedades que padecio su padre</p>
+                <ion-item>
+                  <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseassesBrothers)" >Seleccionar...</button>
+                </ion-item>
+              </ion-row>
+              <ion-list class="margin-top" *ngIf="jsonInheridRelatives.diseassesBrothers.length > 0">
+                <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseassesBrothers">
+                  <ion-item>
+
+                    <h2>{{item.name}}</h2>
+                  </ion-item>
+                  <ion-item-options side="right" *ngIf="!getDatesSuccess">
+                    <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseassesBrothers)">
+                      <ion-icon name="trash"></ion-icon>
+                      Eliminar
+                    </button>
+                  </ion-item-options>
+                </ion-item-sliding>
+              </ion-list>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'grandparentsFather'" class="margin-top" formControlName="grandparentsFatherValue" [(ngModel)]="grandparentsFatherValue" radio-group>
+          <!-- <ion-list radio-group> -->
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Abuelo</ion-label>
+                <ion-radio value="abueloPat"></ion-radio>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label>Abuela</ion-label>
+                <ion-radio value="abuelaPat"></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <!-- </ion-list> -->
+          <div [ngSwitch]="grandparentsFatherValue">
+            <div *ngSwitchCase="'abueloPat'" class="margin-top" radio-group formControlName="conditionFather_father" [(ngModel)]="conditionFather_father">
+              <ion-list-header color="primary">
+                Su abuelo esta vivo o finado
+              </ion-list-header>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Vivo</ion-label>
+                    <ion-radio value="vivo"></ion-radio>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Finado</ion-label>
+                    <ion-radio value="finado"></ion-radio>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <div [ngSwitch]="conditionFather_father">
+                <div *ngSwitchCase="'vivo'">
+                  <ion-row *ngIf="!getDatesSuccess">
+                    <p>Seleccione las enfermedades que padece su abuelo paterno</p>
+                    <ion-item>
+                      <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseassesFather_father)" >Seleccionar...</button>
+                    </ion-item>
+                  </ion-row>
+                  <ion-list class="margin-top" *ngIf="jsonInheridRelatives.diseassesFather_father.length > 0">
+                    <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                    <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseassesFather_father">
+                      <ion-item>
+
+                        <h2>{{item.name}}</h2>
+                      </ion-item>
+                      <ion-item-options side="right" *ngIf="!getDatesSuccess">
+                        <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseassesFather_father)">
+                          <ion-icon name="trash"></ion-icon>
+                          Eliminar
+                        </button>
+                      </ion-item-options>
+                    </ion-item-sliding>
+                  </ion-list>
+                </div>
+                <div *ngSwitchCase="'finado'">
+                  <ion-row *ngIf="!getDatesSuccess">
+                    <ion-item>
+                      <ion-label color="theme">Selecciona la causa</ion-label>
+                      <ion-select formControlName="deathCauseFather_father" [(ngModel)]="deathCauseFather_father">
+                        <ion-option value="{{item.id}}" *ngFor="let item of jsonResponses.sufferings">{{item.name}}</ion-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-row>
+                  <ion-row *ngIf="!getDatesSuccess">
+                    <p>Seleccione las enfermedades que padecio su abuelo paterno</p>
+                    <ion-item>
+                      <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseasesAfterDeathFather_father)" >Seleccionar...</button>
+                    </ion-item>
+                  </ion-row>
+                  <ion-list class="margin-top" *ngIf="jsonInheridRelatives.diseasesAfterDeathFather_father.length > 0">
+                    <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                    <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseasesAfterDeathFather_father">
+                      <ion-item>
+
+                        <h2>{{item.name}}</h2>
+                      </ion-item>
+                      <ion-item-options side="right" *ngIf="!getDatesSuccess">
+                        <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseasesAfterDeathFather_father)">
+                          <ion-icon name="trash"></ion-icon>
+                          Eliminar
+                        </button>
+                      </ion-item-options>
+                    </ion-item-sliding>
+                  </ion-list>
+                </div>
+              </div>
+            </div>
+            <div *ngSwitchCase="'abuelaPat'" class="margin-top" radio-group formControlName="conditionMother_father" [(ngModel)]="conditionMother_father">
+              <ion-list-header color="primary">
+                Su abuela esta viva o finada
+              </ion-list-header>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Viva</ion-label>
+                    <ion-radio value="viva"></ion-radio>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Finada</ion-label>
+                    <ion-radio value="finada"></ion-radio>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <div [ngSwitch]="conditionMother_father">
+                <div *ngSwitchCase="'viva'">
+                  <ion-row *ngIf="!getDatesSuccess">
+                    <p>Seleccione las enfermedades que padece su abuela paterna</p>
+                    <ion-item>
+                      <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseassesMother_father)" >Seleccionar...</button>
+                    </ion-item>
+                  </ion-row>
+                  <ion-list class="margin-top" *ngIf="jsonInheridRelatives.diseassesMother_father.length > 0">
+                    <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                    <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseassesMother_father">
+                      <ion-item>
+
+                        <h2>{{item.name}}</h2>
+                      </ion-item>
+                      <ion-item-options side="right" *ngIf="!getDatesSuccess">
+                        <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseassesMother_father)">
+                          <ion-icon name="trash"></ion-icon>
+                          Eliminar
+                        </button>
+                      </ion-item-options>
+                    </ion-item-sliding>
+                  </ion-list>
+                </div>
+                <div *ngSwitchCase="'finada'">
+                  <ion-row *ngIf="!getDatesSuccess">
+                    <ion-item>
+                      <ion-label color="theme">Selecciona la causa</ion-label>
+                      <ion-select formControlName="deathCauseMother_father"  [(ngModel)]="deathCauseMother_father">
+                        <ion-option value="{{item.id}}" *ngFor="let item of jsonResponses.sufferings">{{item.name}}</ion-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-row>
+                  <ion-row *ngIf="!getDatesSuccess">
+                    <p>Seleccione las enfermedades que padecio su abuela paterna</p>
+                    <ion-item>
+                      <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseasesAfterDeathMother_father)" >Seleccionar...</button>
+                    </ion-item>
+                  </ion-row>
+                  <ion-list class="margin-top" *ngIf="jsonInheridRelatives.diseasesAfterDeathMother_father.length > 0">
+                    <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                    <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseasesAfterDeathMother_father">
+                      <ion-item>
+
+                        <h2>{{item.name}}</h2>
+                      </ion-item>
+                      <ion-item-options side="right" *ngIf="!getDatesSuccess">
+                        <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseasesAfterDeathMother_father)">
+                          <ion-icon name="trash"></ion-icon>
+                          Eliminar
+                        </button>
+                      </ion-item-options>
+                    </ion-item-sliding>
+                  </ion-list>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'grandparentsMother'" class="margin-top" formControlName="grandparentsMotherValue" [(ngModel)]="grandparentsMotherValue" radio-group>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Abuelo</ion-label>
+                <ion-radio value="abueloMat"></ion-radio>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label>Abuela</ion-label>
+                <ion-radio value="abuelaMat"></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <div [ngSwitch]="grandparentsMotherValue">
+            <div *ngSwitchCase="'abueloMat'" class="margin-top" radio-group formControlName="conditionFather_mother" [(ngModel)]="conditionFather_mother">
+              <ion-list-header color="primary">
+                Su abuelo esta vivo o finado
+              </ion-list-header>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Vivo</ion-label>
+                    <ion-radio value="vivo"></ion-radio>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Finado</ion-label>
+                    <ion-radio value="finado"></ion-radio>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <div [ngSwitch]="conditionFather_mother">
+                <div *ngSwitchCase="'vivo'">
+                  <ion-row *ngIf="!getDatesSuccess">
+                    <p>Seleccione las enfermedades que padece su abuelo paterno</p>
+                    <ion-item>
+                      <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseassesFather_mother)" >Seleccionar...</button>
+                    </ion-item>
+                  </ion-row>
+                  <ion-list class="margin-top" *ngIf="jsonInheridRelatives.diseassesFather_mother.length > 0">
+                    <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                    <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseassesFather_mother">
+                      <ion-item>
+
+                        <h2>{{item.name}}</h2>
+                      </ion-item>
+                      <ion-item-options side="right" *ngIf="!getDatesSuccess">
+                        <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseassesFather_mother)">
+                          <ion-icon name="trash"></ion-icon>
+                          Eliminar
+                        </button>
+                      </ion-item-options>
+                    </ion-item-sliding>
+                  </ion-list>
+                </div>
+                <div *ngSwitchCase="'finado'">
+                  <ion-row *ngIf="!getDatesSuccess">
+                    <ion-item>
+                      <ion-label color="theme">Selecciona la causa</ion-label>
+                      <ion-select formControlName="deathCauseFather_mother" [(ngModel)]="deathCauseFather_mother">
+                        <ion-option value="{{item.id}}" *ngFor="let item of jsonResponses.sufferings">{{item.name}}</ion-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-row>
+                  <ion-row *ngIf="!getDatesSuccess">
+                    <p>Seleccione las enfermedades que padecio su abuelo paterno</p>
+                    <ion-item>
+                      <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseasesAfterDeathFather_mother)" >Seleccionar...</button>
+                    </ion-item>
+                  </ion-row>
+                  <ion-list class="margin-top" *ngIf="jsonInheridRelatives.diseasesAfterDeathFather_mother.length > 0">
+                    <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                    <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseasesAfterDeathFather_mother">
+                      <ion-item>
+
+                        <h2>{{item.name}}</h2>
+                      </ion-item>
+                      <ion-item-options side="right" *ngIf="!getDatesSuccess">
+                        <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseasesAfterDeathFather_mother)">
+                          <ion-icon name="trash"></ion-icon>
+                          Eliminar
+                        </button>
+                      </ion-item-options>
+                    </ion-item-sliding>
+                  </ion-list>
+                </div>
+              </div>
+            </div>
+            <div *ngSwitchCase="'abuelaMat'" class="margin-top" radio-group formControlName="conditionMother_mother" [(ngModel)]="conditionMother_mother">
+              <ion-list-header color="primary">
+                Su abuela esta viva o finada
+              </ion-list-header>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Viva</ion-label>
+                    <ion-radio value="viva"></ion-radio>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Finada</ion-label>
+                    <ion-radio value="finada"></ion-radio>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <div [ngSwitch]="conditionMother_mother">
+                <div *ngSwitchCase="'viva'">
+                  <ion-row *ngIf="!getDatesSuccess">
+                    <p>Seleccione las enfermedades que padece su abuela paterna</p>
+                    <ion-item>
+                      <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseassesMother_mother)" >Seleccionar...</button>
+                    </ion-item>
+                  </ion-row>
+                  <ion-list class="margin-top" *ngIf="jsonInheridRelatives.diseassesMother_mother.length > 0">
+                    <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                    <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseassesMother_mother">
+                      <ion-item>
+
+                        <h2>{{item.name}}</h2>
+                      </ion-item>
+                      <ion-item-options side="right" *ngIf="!getDatesSuccess">
+                        <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseassesMother_mother)">
+                          <ion-icon name="trash"></ion-icon>
+                          Eliminar
+                        </button>
+                      </ion-item-options>
+                    </ion-item-sliding>
+                  </ion-list>
+                </div>
+                <div *ngSwitchCase="'finada'">
+                  <ion-row *ngIf="!getDatesSuccess">
+                    <ion-item>
+                      <ion-label color="theme">Selecciona la causa</ion-label>
+                      <ion-select formControlName="deathCauseMother_mother"  [(ngModel)]="deathCauseMother_mother" >
+                        <ion-option value="{{item.id}}" *ngFor="let item of jsonResponses.sufferings">{{item.name}}</ion-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-row>
+                  <ion-row *ngIf="!getDatesSuccess">
+                    <p>Seleccione las enfermedades que padecio su abuela paterna</p>
+                    <ion-item>
+                      <button ion-button round block (click)="selectDiseases(jsonInheridRelatives.diseasesAfterDeathMother_mother)" >Seleccionar...</button>
+                    </ion-item>
+                  </ion-row>
+                  <ion-list class="margin-top" *ngIf="jsonInheridRelatives.diseasesAfterDeathMother_mother.length > 0">
+                    <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                    <ion-item-sliding *ngFor="let item of jsonInheridRelatives.diseasesAfterDeathMother_mother">
+                      <ion-item>
+
+                        <h2>{{item.name}}</h2>
+                      </ion-item>
+                      <ion-item-options side="right" *ngIf="!getDatesSuccess">
+                        <button ion-button color="danger" (click)= "removeObjJson(item,jsonInheridRelatives.diseasesAfterDeathMother_mother)">
+                          <ion-icon name="trash"></ion-icon>
+                          Eliminar
+                        </button>
+                      </ion-item-options>
+                    </ion-item-sliding>
+                  </ion-list>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-grid>
+    </div>
+    <button ion-button round block (click)="save()" *ngIf="typePerson && !getDatesSuccess" class="button-bot">
+      Guardar
+    </button>
+  </form>
+</ion-content>

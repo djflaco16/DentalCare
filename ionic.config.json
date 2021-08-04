@@ -1,0 +1,7 @@
+{
+  "name": "dentalCare",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular-@2.8.1"
+}

@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <ion-title text-center>{{namePage}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+    <ion-grid>
+      <!-- Formulario datos generales -->
+      <ion-row class = "back-color-menu">
+        <ion-col>
+          <ion-icon name="contact" class="margin-rigth"></ion-icon>Datos Generales
+        </ion-col>
+        <ion-item>
+          <ion-label color="primary" floating><ion-icon name="person" class="margin-rigth"></ion-icon>Nombre</ion-label>
+          <ion-input [(ngModel)]="name" maxlength="50" disabled="true"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" floating><ion-icon name="female" class="margin-rigth"></ion-icon>Apellido materno</ion-label>
+          <ion-input  [(ngModel)]="apMat"  maxlength="50" disabled="true"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" floating><ion-icon name="mail" class="margin-rigth"></ion-icon>Email</ion-label>
+          <ion-input  [(ngModel)]="email" maxlength="50" disabled="true"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" floating><ion-icon name="call" class="margin-rigth"></ion-icon>Telefono</ion-label>
+          <ion-input [(ngModel)]="phone" maxlength="10" disabled="true"></ion-input>
+        </ion-item>
+      </ion-row>
+      <!-- Formulario de la direccion -->
+      <ion-row  class = "back-color-menu" >
+        <ion-col>
+          <ion-icon name="home" class="margin-rigth"></ion-icon> Direccion
+        </ion-col>
+        <ion-item>
+          <ion-label color="primary" floating class="margin-rigth">Calle</ion-label>
+          <ion-input  [(ngModel)]="calle" disabled="true"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" floating>Número</ion-label>
+          <ion-input  [(ngModel)]="num" maxlength="6" disabled="true"></ion-input>
+        </ion-item>s
+        <ion-item>
+          <ion-label color="primary" floating>Delegación</ion-label>
+          <ion-input [(ngModel)]="del" maxlength="50" disabled="true"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" floating>C.P.</ion-label>
+          <ion-input [(ngModel)]="cp" disabled="true"></ion-input>
+        </ion-item>
+      </ion-row>
+  </ion-grid>
+</ion-content>

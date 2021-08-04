@@ -1,0 +1,26 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <ion-title text-center>Tratamientos Realizados</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngFor="let diagnostic of jsonResponses.diagnostics">
+    <ion-item-group>
+      <ion-item-divider color="{{theme}}" *ngIf="diagnostic.status == 1">
+        {{diagnostic.date}}
+      </ion-item-divider>
+      <div *ngFor="let tooth of diagnostic.sufferings">
+        <button ion-item (click)="loadTreatment(tooth)" *ngIf="tooth.statusSuffering == 13">
+          <ion-avatar item-start>
+            <img src="assets/imgs/sufferings/{{tooth.nameSuffering}}.jpeg">
+          </ion-avatar>
+          <h2>{{tooth.nameSuffering}}</h2>
+          <h3>{{tooth.nameTooth}}</h3>
+          <p>Tratamiento: {{tooth.nameTreatment}}</p>
+        </button>
+      </div>
+    </ion-item-group>
+  </div>
+</ion-content>

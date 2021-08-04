@@ -1,0 +1,54 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title  class="ion-text-center">expired</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-avatar item-start>
+      <img src="assets/imgs/login/persona.jpeg">
+    </ion-avatar>
+    <h2>Dr. {{nameDr}} {{aPat}} {{aMat}}</h2>
+    <h3>asdasdasd</h3>
+    <p>Cedula: 198264715</p>
+  </ion-item>
+
+  <ion-card *ngFor="let appointment of jsonResponses.appointmentsExpired">
+    <ion-list color="{{theme}}">
+        <ion-item-sliding>
+          <ion-item>
+            <ion-avatar item-start>
+              <img src="{{appointment.foto}}" *ngIf="appointment.foto">
+              <img src="assets/imgs/generals/sin_foto.jpeg" *ngIf="!appointment.foto">
+            </ion-avatar>
+            <h4>{{appointment.nombre}} {{appointment.paterno}} {{appointment.materno}}</h4>
+            <p><ion-icon name="calendar" color="{{theme}}"></ion-icon>     {{appointment.fecha}}</p>
+            <p><ion-icon name="time" color="{{theme}}"></ion-icon>     {{appointment.horaIni}} - {{appointment.horaFin}}</p>
+            <p *ngIf="appointment.status == 1">Status: <a ion-text color="{{theme}}">Activa</a></p>
+            <p *ngIf="appointment.status == 2">Status: <a ion-text color="danger">Cancelada por el paciente</a></p>
+            <p *ngIf="appointment.status == 3">Status: <a ion-text color="danger">Cancelada por el medico</a></p>
+            <p *ngIf="appointment.status == 4">Status: <a ion-text color="secondary">Concluida</a></p>
+            <p *ngIf="appointment.status == 5">Status: <a ion-text color="danger">Cancelada por vencimiento</a></p>
+          </ion-item>
+          <ion-item-options side="left" *ngIf="appointment.status == 1">
+            <button ion-button color="secondary" (click)="updateAppointment(appointment)">
+              <ion-icon name="open"></ion-icon>
+              Cambiar
+            </button>
+            <button ion-button color="danger" (click)="cancelAppointment(appointment.idCita)">
+              <ion-icon name="trash"></ion-icon>
+              Cancelar
+            </button>
+          </ion-item-options>
+          <!-- <ion-item-options side="light">
+            <button ion-button color="primary">
+              <ion-icon name="cog"></ion-icon>
+              Cambiar
+            </button>
+          </ion-item-options> -->
+        </ion-item-sliding>
+    </ion-list>
+  </ion-card>
+</ion-content>

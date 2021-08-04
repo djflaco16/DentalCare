@@ -1,0 +1,60 @@
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row class="logo-row">
+      <ion-col></ion-col>
+      <ion-col >
+        <ion-label> {{appName}}</ion-label>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+    &nbsp;
+    &nbsp;
+    <ion-row class="logo-row">
+      <ion-col></ion-col>
+      <ion-col >
+        <img src="assets/imgs/login/diente_login.jpg"/>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-item>
+        <ion-label color="primary" stacked>Usuario</ion-label>
+        <ion-input placeholder="Minimo 8 caracteres" [(ngModel)]="user"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>Contraseña</ion-label>
+        <ion-input type="password" placeholder="Ingrese su contraseña" [(ngModel)]="psw"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Recordar usuario</ion-label>
+        <ion-checkbox [(ngModel)]="btnRememberPsw" ></ion-checkbox>
+      </ion-item>
+      &nbsp;
+      &nbsp;
+      <button ion-button round block
+      (click)="logIn()">Ingresar
+    </button>
+  </ion-row>
+  &nbsp;
+  &nbsp;
+  <ion-row>
+    <ion-col class="signup-col">
+      <button ion-button class="register-btn" (click)="registerUser()" block clear>Crear cuenta</button>
+    </ion-col>
+    <ion-col class="signup-col">
+      <button ion-button class="register-btn" (click)="recoveryPsw()" block clear>Recuperar contraseña</button>
+    </ion-col>
+  </ion-row>
+  &nbsp;
+  &nbsp;
+  &nbsp;
+  &nbsp;
+  <ion-row>
+      <ion-note item-end>
+        Version : 0.0.3.3 - 30.07.2020 - 14:00
+      </ion-note>
+  </ion-row>
+</ion-grid>
+
+</ion-content>

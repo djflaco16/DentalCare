@@ -1,0 +1,30 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <ion-title text-center>Ruta clinica</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item-group reorder="{{reorderRoute}}" (ionItemReorder)="reorderItems($event)">
+      <ion-item-sliding *ngFor="let item of initialRoute">
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="assets/imgs/clinicalRoutes/{{item.img}}">
+          </ion-avatar>
+          <h2>{{item.nombre}}</h2>
+        </ion-item>
+        <ion-item-options side="right" *ngIf="reorderRoute">
+          <button ion-button color="danger" (click)="removeRoute(item)">
+            <ion-icon name="close"></ion-icon>
+            Eliminar
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item-group>
+  </ion-list>
+  <button ion-button round block type="submit" (click)="saveRoute()" *ngIf="reorderRoute">
+    Guardar
+  </button>
+</ion-content>

@@ -1,0 +1,38 @@
+page-home {
+
+  ion-scroll {
+    white-space: nowrap;
+    height: 400px;
+  }
+  .slide-zoom {
+    text-align: center;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  ion-slides {
+      display: block;
+      width: 100%;
+      height: 77%;
+  }
+
+  .card-md {
+    height: 90%;
+  }
+
+  .scroll-content {
+    height: 100%;
+  }
+
+  .paginador{
+    text-align: center;
+  }
+  .img-paginador{
+    border: 2px solid;
+    margin: 1px;
+    padding: 1px;
+  }
+
+
+}

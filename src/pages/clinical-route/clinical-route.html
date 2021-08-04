@@ -1,0 +1,38 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <button ion-button menuToggle right (click)="closeModal()">
+      <ion-icon name="close-circle"></ion-icon>
+    </button>
+    <ion-title text-center>Ruta clinica</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <div *ngFor="let diagnostic of jsonResponses.diagnostics">
+    <ion-card color="{{theme}}" *ngIf="diagnostic.statusDiag == 0">
+      <ion-card-header (click)="activeMenu(diagnostic)">
+        <ion-icon name="people" item-start></ion-icon>
+        {{diagnostic.dateDiagnostic}}
+      </ion-card-header>
+      <ion-list *ngIf="diagnosticActive == diagnostic.idDiagnostic">
+        <div *ngFor="let suffering of diagnostic.sufferings">
+          <ion-item>
+            <ion-avatar item-start>
+              <img src="assets/imgs/sufferings/{{suffering.nameSuffering}}.jpeg">
+            </ion-avatar>
+            <h2>
+              {{suffering.nameSuffering}}
+              <ion-note *ngIf="suffering.dateTreatment" item-end >{{suffering.dateTreatment}}</ion-note>
+              <ion-note *ngIf="!suffering.dateTreatment" item-end>Tratamiento inconcluso</ion-note>
+            </h2>
+            <h3>{{suffering.nameTooth}}</h3>
+            <p>Tratamiento: {{suffering.nameTreatment}}</p>
+          </ion-item>
+        </div>
+        <button ion-button block color="btnSuccess"  (click) = "getDetailRoute(diagnostic)">Detalle ruta</button>
+      </ion-list>
+    </ion-card>
+  </div>
+</ion-content>

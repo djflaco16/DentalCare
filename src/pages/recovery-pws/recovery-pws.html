@@ -1,0 +1,60 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <ion-title text-center>Recupera contraseña</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+  <ion-grid>
+    <form [formGroup]="formRecoveryPsw" (ngSubmit)="recoverPsw()" novalidate *ngIf="!isChangePsw">
+      <ion-item>
+        <ion-label color="primary" floating><ion-icon name="mail" class="margin-rigth"></ion-icon>Email</ion-label>
+        <ion-input formControlName = "email" [(ngModel)]="email" maxlength="50"></ion-input>
+      </ion-item>
+      <div *ngIf="formRecoveryPsw.get('email').errors && formRecoveryPsw.get('email').dirty">
+        <p class="error" *ngIf="formRecoveryPsw.get('email').hasError('email')">
+          El correo no es válido.
+        </p>
+      </div>
+      <button ion-button round block
+      type="submit" [disabled]="!formRecoveryPsw.valid" margin-top>Recuperar
+    </button>
+  </form>
+  <form [formGroup]="formChangePsw" (ngSubmit)="changePws()" novalidate *ngIf="isChangePsw">
+    <ion-item>
+      <ion-label color="primary" floating><ion-icon name="clock" class="margin-rigth"></ion-icon>Contraseña temporal</ion-label>
+      <ion-input formControlName = "pswTemp" [(ngModel)]="pswTemp" maxlength="50" type="password" (keypress)="validationEvent.password($event)"></ion-input>
+    </ion-item>
+    <div *ngIf="formChangePsw.get('pswTemp').errors && formChangePsw.get('pswTemp').dirty">
+      <p class="error" *ngIf="formChangePsw.get('pswTemp').hasError('required')">
+        Minimo 8 caracteres.
+      </p>
+    </div>
+    <ion-item>
+      <ion-label color="primary" floating><ion-icon name="ios-key" class="margin-rigth"></ion-icon>Nueva contraseña</ion-label>
+      <ion-input formControlName = "newPsw" [(ngModel)]="newPsw" maxlength="50" type="password" (keypress)="validationEvent.password($event)"></ion-input>
+    </ion-item>
+    <div *ngIf="formChangePsw.get('newPsw').errors && formChangePsw.get('newPsw').dirty">
+      <p class="error" *ngIf="formChangePsw.get('newPsw').hasError('minlength') || formChangePsw.get('newPsw').hasError('required')">
+        Minimo 8 caracteres.
+      </p>
+    </div>
+    <ion-item>
+      <ion-label color="primary" floating><ion-icon name="ios-key-outline" class="margin-rigth"></ion-icon>Confirmar contraseña</ion-label>
+      <ion-input formControlName = "newPsw" [(ngModel)]="newPsw" maxlength="50" type="password" (keypress)="validationEvent.password($event)"></ion-input>
+    </ion-item>
+    <div *ngIf="formChangePsw.get('newPsw').errors && formChangePsw.get('newPsw').dirty">
+      <p class="error" *ngIf="formChangePsw.get('newPsw').hasError('minlength') || formChangePsw.get('newPsw').hasError('required')">
+        Minimo 5 caracteres.
+      </p>
+    </div>
+    <button ion-button round type="button"  margin-top color="danger" (click)="isChangePsw = false">
+      Regresar
+    </button>
+    <button ion-button round type="submit" [disabled]="!formChangePsw.valid" margin-top>
+      Ingresar
+    </button>
+  </form>
+</ion-grid>
+</ion-content>

@@ -1,0 +1,38 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <button ion-button menuToggle right (click)="closeModal()">
+      <ion-icon name="close-circle"></ion-icon>
+    </button>
+    <ion-title text-center>Plan tratamiento</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <div *ngFor="let diagnostic of jsonResponses.diagnostics">
+    <ion-card color="{{theme}}" *ngIf="diagnostic.statusDiag == 0">
+      <ion-card-header (click)="activeMenu(diagnostic)">
+        <ion-icon name="people" item-start></ion-icon>
+        {{diagnostic.dateDiagnostic}}
+      </ion-card-header>
+      <ion-list *ngIf="diagnosticActive == diagnostic.idDiagnostic">
+        <div *ngFor="let enfermedad of diagnostic.enfermedads">
+          <button ion-item (click)="loadTreatment(enfermedad)">
+            <ion-avatar item-start>
+              <img src="assets/imgs/enfermedads/{{enfermedad.nameenfermedad}}.jpeg">
+            </ion-avatar>
+            <h2>
+              {{enfermedad.nameenfermedad}}
+              <ion-note *ngIf="enfermedad.dateTreatment" item-end >{{enfermedad.dateTreatment}}</ion-note>
+              <ion-note *ngIf="!enfermedad.dateTreatment" item-end>Tratamiento inconcluso</ion-note>
+            </h2>
+            <h3>{{enfermedad.nameTooth}}</h3>
+            <p>Tratamiento: {{enfermedad.nameTreatment}}</p>
+          </button>
+        </div>
+        <button ion-button block color="btnSuccess"  (click) = "endTreatment(diagnostic.idDiagnostic)" *ngIf="showBtnFinalizar && typeUser==1">Finalizar</button>
+      </ion-list>
+    </ion-card>
+  </div>
+</ion-content>

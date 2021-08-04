@@ -1,0 +1,43 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <ion-title text-center>Estudios previos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-card *ngFor="let study of jsonResponses.estudios">
+      <ion-card-header (click)="openStudy(study.idTipoEst)">
+        <ion-item color="{{theme}}">
+          <ion-avatar item-start>
+            <img src="assets/imgs/login/diente_login.jpg">
+          </ion-avatar>
+          <h2>{{study.nombre}}</h2>
+          <p>{{study.fecha}}</p>
+        </ion-item>
+      </ion-card-header>
+      <ion-card-content *ngIf="activeStudy == study.idTipoEst">
+        <img src="{{study.foto}}">
+        <p>{{study.descripcion}}</p>
+        <ion-row>
+          <ion-col *ngIf="study.estatus == 0">
+            <button ion-button icon-start clear small (click)="loadCamera(study)">
+              <ion-icon name="camera"></ion-icon>
+              <div>Tomar foto</div>
+            </button>
+          </ion-col>
+          <ion-col *ngIf="study.estatus == 1 || study.estatus == 4">
+            <button ion-button icon-start clear small (click)="loadCamera(study)">
+              <ion-icon name="reverse-camera"></ion-icon>
+              <div>Cambiar foto</div>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    <button ion-button round block (click)="save()">
+      Guardar
+    </button>
+  </ion-grid>
+</ion-content>

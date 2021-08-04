@@ -1,0 +1,222 @@
+<ion-header>
+  <ion-navbar>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <form [formGroup]="formPathological">
+    <div id="saveDates" *ngIf="getDatesSuccess">
+      <ion-grid *ngFor="let item of jsonResDates">
+        <ion-row class="margin-top">
+          <ion-list-header color="primary">
+            {{item.tipo}}
+          </ion-list-header>
+        </ion-row>
+        <ion-row>
+          <ion-label>Lo consume: {{item.status}}</ion-label>
+        </ion-row>
+        <ion-row>
+          <ion-label>Lapso de tiempo: {{item.tiempo}}</ion-label>
+        </ion-row>
+        <ion-row>
+          <ion-label>Frecuencia: {{item.frecuencia}}</ion-label>
+        </ion-row>
+        <ion-row>
+          <ion-item *ngFor="let item of item.drogas">
+            <ion-avatar item-start>
+              <img src="assets/imgs/login/diente_login.jpg">
+            </ion-avatar>
+            <h2>{{item.name}}</h2>
+          </ion-item>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div id="viewDates" *ngIf="!getDatesSuccess">
+      <div>
+        <ion-segment formControlName="typePathological" [(ngModel)]="typePathological" color="{{theme}}">
+          <ion-segment-button value="tobacco">
+            Tabaco
+          </ion-segment-button>
+          <ion-segment-button value="drink">
+            Alcohol
+          </ion-segment-button>
+          <ion-segment-button value="others">
+            Otras sustancias
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+      <div [ngSwitch]="typePathological">
+        <div *ngSwitchDefault>
+          <p>
+            Seleccione una opcion y brinde los antecedentes patologicos del paciente.
+          </p>
+        </div>
+        <div *ngSwitchCase="'tobacco'" formControlName="smokePx" [ngSwitch]="smokePx" radio-group [(ngModel)]="smokePx">
+          <div>
+            <ion-grid>
+              <ion-row class="margin-top">
+                <ion-list-header color="primary">
+                  ¿El paciente fuma?
+                </ion-list-header>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Si</ion-label>
+                    <ion-radio value="si"></ion-radio>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>No</ion-label>
+                    <ion-radio value="no"></ion-radio>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+          <div [ngSwitch]="smokePx">
+            <div *ngSwitchCase="'si'">
+              <ion-row>
+                <ion-item>
+                  <ion-label color="theme">Desde cuando fuma</ion-label>
+                  <ion-select formControlName="sinceSmoke" [(ngModel)]="sinceSmoke">
+                    <ion-option value="{{item.id}}" *ngFor="let item of jsonResponses.catTime">{{item.desc}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-row>
+              <ion-row>
+                <ion-item>
+                  <ion-label color="theme">Con que frecuencia</ion-label>
+                  <ion-select formControlName="frecuencySmoke" [(ngModel)]="frecuencySmoke">
+                    <ion-option value="{{item.id}}" *ngFor="let item of jsonResponses.catFrecuency">{{item.desc}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-row>
+            </div>
+            <div *ngSwitchCase="'no'"></div>
+          </div>
+        </div>
+        <!-- <div *ngSwitchCase="'alcohol'"></div> -->
+        <div *ngSwitchCase="'drink'" formControlName="drinkPx" [ngSwitch]="drinkPx" radio-group [(ngModel)]="drinkPx">
+          <div>
+            <ion-grid>
+              <ion-row class="margin-top">
+                <ion-list-header color="primary">
+                  ¿Toma bebidas con alcohol?
+                </ion-list-header>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Si</ion-label>
+                    <ion-radio value="si"></ion-radio>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>No</ion-label>
+                    <ion-radio value="no"></ion-radio>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+          <div [ngSwitch]="drinkPx">
+            <div *ngSwitchCase="'si'">
+              <ion-row>
+                <ion-item>
+                  <ion-label color="theme">Desde cuando toma alcohol</ion-label>
+                  <ion-select formControlName="sinceDrink"  [(ngModel)]="sinceDrink">
+                    <ion-option value="{{item.id}}" *ngFor="let item of jsonResponses.catTime">{{item.desc}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-row>
+              <ion-row>
+                <ion-item>
+                  <ion-label color="theme">Con que frecuencia</ion-label>
+                  <ion-select formControlName="frecuencyDrink" [(ngModel)]="frecuencyDrink">
+                    <ion-option value="{{item.id}}" *ngFor="let item of jsonResponses.catFrecuency">{{item.desc}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-row>
+            </div>
+            <div *ngSwitchCase="'no'"></div>
+          </div>
+        </div>
+        <!-- <div *ngSwitchCase="'others'">Otros</div> -->
+        <div *ngSwitchCase="'others'" formControlName="othersPx" [ngSwitch]="othersPx" radio-group [(ngModel)]="othersPx">
+          <div>
+            <ion-grid>
+              <ion-row class="margin-top">
+                <ion-list-header color="primary">
+                  ¿Ingiere sustancias psicoactivas?
+                </ion-list-header>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Si</ion-label>
+                    <ion-radio value="si"></ion-radio>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>No</ion-label>
+                    <ion-radio value="no"></ion-radio>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+          <div [ngSwitch]="othersPx">
+            <div *ngSwitchCase="'si'">
+              <ion-row>
+                <ion-item>
+                  <ion-label color="theme">Desde cuando ingiere drogas</ion-label>
+                  <ion-select formControlName="sinceOthers" [(ngModel)]="sinceOthers" >
+                    <ion-option value="{{item.id}}" *ngFor="let item of jsonResponses.catTime">{{item.desc}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-row>
+              <ion-row>
+                <ion-item>
+                  <ion-label color="theme">Con que frecuencia</ion-label>
+                  <ion-select formControlName="frecuencyOthers" [(ngModel)]="frecuencyOthers">
+                    <ion-option value="{{item.id}}" *ngFor="let item of jsonResponses.catFrecuency">{{item.desc}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-row>
+              <ion-row>
+                <p>Seleccione las sustancias que consume</p>
+                <ion-item>
+                  <button ion-button round block (click)="selectDrugs(jsonPathologicals.psychoactiveSustancesPx)" >Seleccionar...</button>
+                </ion-item>
+              </ion-row>
+              <ion-list class="margin-top" *ngIf="jsonPathologicals.psychoactiveSustancesPx.length">
+                <ion-item-divider color="light">Enfermedades seleccionadas</ion-item-divider>
+                <ion-item-sliding *ngFor="let item of jsonPathologicals.psychoactiveSustancesPx">
+                  <ion-item>
+                    <ion-avatar item-start>
+                      <img src="assets/imgs/login/diente_login.jpg">
+                    </ion-avatar>
+                    <h2>{{item.name}}</h2>
+                  </ion-item>
+                  <ion-item-options side="right">
+                    <button ion-button color="danger" (click) = "removeDrug(item)">
+                      <ion-icon name="trash"></ion-icon>
+                      Eliminar
+                    </button>
+                  </ion-item-options>
+                </ion-item-sliding>
+              </ion-list>
+            </div>
+            <div *ngSwitchCase="'no'"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <button ion-button round block (click)="save()" *ngIf="typePathological && !getDatesSuccess" class="button-bot">
+    Guardar
+  </button>
+</ion-content>

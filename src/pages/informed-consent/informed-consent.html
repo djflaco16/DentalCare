@@ -1,0 +1,48 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <ion-title text-center>Concentimiento informado</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngFor="let diagnostic of jsonResponses.diagnostics">
+    <ion-card>
+      <ion-card-header color="{{theme}}" (click)="showConcent(diagnostic)">
+        <ion-icon name="calendar" item-start></ion-icon>
+        {{diagnostic.dateDiagnostic}}
+        <ion-note item-end *ngIf="diagnostic.statusConsent == 1">Aceptado</ion-note>
+        <ion-note item-end *ngIf="diagnostic.statusConsent == 2">Rechazado</ion-note>
+      </ion-card-header>
+      <ion-card-content *ngIf="diagnosticActive == diagnostic.dateDiagnostic">
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="assets/imgs/login/persona.jpeg">
+          </ion-avatar>
+          <h2>Px. Jose Manuel Rodrigues</h2>
+        </ion-item>
+        <img src="assets/imgs/login/dentista.jpg">
+        <ion-card-content>
+          <p *ngIf="diagnostic.statusConsent == 2">El diagnostico se realizo el {{diagnostic.dateDiagnostic}}, se le explicaron los procedimientos que son necesarios al paciente y rechazo el plan de tratamiento el {{diagnostic.dateConsent}}.</p>
+          <p *ngIf="diagnostic.statusConsent == 1">El diagnostico se realizo el {{diagnostic.dateDiagnostic}}, se le explicaron los procedimientos que son necesarios al paciente, el cual dio su concentimiento el {{diagnostic.dateConsent}}, y consta del siguiente plan de tratamiento: </p>
+          <p *ngIf="diagnostic.statusConsent == 0">El paciente no a dado su concentimiento para  que se lleve a cabo el tratamiento, dicho tratamiento consta del siguiente plan: </p>
+            <!--><div *ngFor="let suffering of diagnostic.sufferings">
+            <ion-item>
+              <ion-note item-end>Realizado: {{suffering.dateTreatment}}</ion-note>
+              <h2>{{suffering.nameSuffering}}</h2>
+              <p>{{suffering.nameTooth}}</p>
+            </ion-item>
+            </div></!-->
+            <ion-item *ngFor="let suffering of diagnostic.sufferings" >
+              <ion-avatar item-start>
+                <img src="assets/imgs/sufferings/{{suffering.nameSuffering}}.jpeg">
+              </ion-avatar>
+              <h3>Diagnostico: {{suffering.nameSuffering}} </h3>
+              <h3>{{suffering.numberTooth}}: {{suffering.nameTooth}}</h3>
+              <h4>Tratamiento: {{suffering.nameTreatment}}</h4>
+            </ion-item>
+        </ion-card-content>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

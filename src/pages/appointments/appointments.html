@@ -1,0 +1,85 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <button ion-button menuToggle left >
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>Citas</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <form [formGroup]="formFindPx" (ngSubmit)="findPx()" novalidate *ngIf="!isChangePsw">
+      <ion-item>
+        <ion-label color="primary" floating><ion-icon name="person" class="margin-rigth"></ion-icon>Nombre</ion-label>
+        <ion-input formControlName = "name" [(ngModel)]="name" maxlength="50" (keypress)="validationEvent.onlyLetterAndSpace($event)"></ion-input>
+      </ion-item>
+      <div *ngIf="formFindPx.get('name').errors && formFindPx.get('name').dirty">
+        <p class="error" *ngIf="formFindPx.get('name').hasError('minlength')">
+          El Nombre debe contener minimo 3 caracteres.
+        </p>
+      </div>
+      <ion-item>
+        <ion-label color="primary" floating><ion-icon name="male" class="margin-rigth"></ion-icon>Apellido paterno</ion-label>
+        <ion-input formControlName = "apPat" [(ngModel)]="apPat" maxlength="50" (keypress)="validationEvent.onlyLetter($event)"></ion-input>
+      </ion-item>
+      <div *ngIf="formFindPx.get('apPat').errors && formFindPx.get('apPat').dirty">
+        <p class="error" *ngIf="formFindPx.get('apPat').hasError('minlength')">
+          El Apellido debe contener minimo 4 caracteres.
+        </p>
+      </div>
+      <ion-item>
+        <ion-label color="primary" floating><ion-icon name="female" class="margin-rigth"></ion-icon>Apellido materno</ion-label>
+        <ion-input formControlName = "apMat" [(ngModel)]="apMat" (keypress)="validationEvent.onlyLetter($event)" maxlength="50"></ion-input>
+      </ion-item>
+      <div *ngIf="formFindPx.get('apMat').errors && formFindPx.get('apMat').dirty">
+        <p class="error" *ngIf="formFindPx.get('apMat').hasError('minlength')">
+          El Apellido debe contener minimo 4 caracteres.
+        </p>
+      </div>
+      <ion-item>
+        <ion-label color="primary" floating># Numero PX</ion-label>
+        <ion-input formControlName = "numPx" [(ngModel)]="numPx" maxlength="6" (keypress)="validationEvent.onlyNumber($event)"></ion-input>
+      </ion-item>
+      <div *ngIf="formFindPx.get('numPx').errors && formFindPx.get('numPx').dirty">
+        <p class="error" *ngIf="formFindPx.get('numPx').hasError('minlength')">
+          El Nombre debe contener minimo 3 caracteres.
+        </p>
+      </div>
+      <ion-item>
+        <ion-label color="primary" floating><ion-icon name="calendar" class="margin-rigth"></ion-icon>Date</ion-label>
+        <ion-datetime displayFormat="DD/MMM/YYYY" formControlName = "date" [(ngModel)]="date" doneText="Seleccionar" cancelText="Cancelar"></ion-datetime>
+      </ion-item>
+      <button ion-button round block
+      type="submit" [disabled]="!formFindPx.valid" margin-top>Buscar
+    </button>
+  </form>
+</ion-grid>
+<ion-grid *ngIf="jsonResponses.patients">
+  <ion-list>
+    <ion-item-sliding *ngFor="let patient of jsonResponses.patients">
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="{{patient.foto}}" *ngIf="patient.foto">
+          <img src="assets/imgs/generals/sin_foto.jpeg" *ngIf="!patient.foto">
+        </ion-avatar>
+        <h2>{{patient.name}} {{patient.aPat}}</h2>
+        <h3 *ngIf=" patient.dateAppointment">Proxima cita: {{patient.dateAppointment}}</h3>
+        <p *ngIf=" patient.dateAppointment">Horario: {{patient.hourIni}} - {{patient.hourEnd}} </p>
+        <p *ngIf="!patient.dateAppointment"> No tiene citas agendadas</p>
+      </ion-item>
+      <ion-item-options side="left">
+        <button ion-button color="primary" (click)="viewHistorial(patient.id_history)" *ngIf="patient.dateAppointment">
+          <ion-icon name="medicalHistory"></ion-icon>
+          Historial
+        </button>
+        <button ion-button color="secondary" *ngIf="!patient.dateAppointment" (click)="createAppointment(patient)">
+          <ion-icon name="archive"></ion-icon>
+          Agendar
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-grid>
+</ion-content>

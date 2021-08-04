@@ -1,0 +1,72 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <ion-title text-center>Historial clínico</ion-title>
+    <!-- <button ion-button right  (click)="closeSesion()">
+      <ion-icon name="log-out"></ion-icon>
+    </button> -->
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card color="{{theme}}">
+    <ion-card-header (click)="openMenu('anamnesis')">
+      <ion-icon name="people" item-start ></ion-icon>
+      {{anamnesisName}}
+    </ion-card-header>
+    <ion-list *ngIf="subMenu == 'anamnesis'">
+      <ion-list>
+        <button ion-item (click)="utilsModule.loadPage('identificationFile')">
+          <ion-icon name="person" item-start color="{{theme}}"></ion-icon>
+          {{fichaName}}
+        </button>
+        <button ion-item (click)="utilsModule.loadPage('exploration')" *ngIf="typeUser == 10">
+          <ion-icon name="eye" item-start color="{{theme}}"></ion-icon>
+          Exploraciones
+        </button>
+      </ion-list>
+    </ion-list>
+  </ion-card>
+  <ion-card color="{{theme}}" *ngIf="typeUser == 1">
+    <ion-card-header (click)="utilsModule.loadPage('previousStudies')">
+      <ion-icon name="folder-open" item-start></ion-icon>
+      Estudios Previos
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card color="{{theme}}" *ngIf="typeUser == 1">
+    <ion-card-header (click)="utilsModule.loadPage('diagnostics')" >
+      <ion-icon name="pulse" item-start ></ion-icon>
+      Diagnosticos
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card color="{{theme}}" *ngIf="typeUser == 1">
+    <ion-card-header (click)="utilsModule.loadPage('clinicalRoute')" >
+      <ion-icon name="paper" item-start ></ion-icon>
+      Ruta Clinica
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card color="{{theme}}">
+    <ion-card-header (click)="utilsModule.loadPage('treatmentPlan')" >
+      <ion-icon name="medkit" item-start ></ion-icon>
+      {{treatmentsPlanName}}
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card color="{{theme}}" *ngIf="typeUser == 1">
+    <ion-card-header (click)="utilsModule.loadPage('informedConsent')">
+      <ion-icon name="finger-print" item-start></ion-icon>
+      Concentimiento Informativo
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card color="{{theme}}">
+    <ion-card-header (click)="utilsModule.loadPage('treatmentsMedical')" >
+      <ion-icon name="ios-archive" item-start ></ion-icon>
+      {{treatmentsName}}
+    </ion-card-header>
+  </ion-card>
+
+</ion-content>

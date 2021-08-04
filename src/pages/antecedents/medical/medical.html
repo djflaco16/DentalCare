@@ -1,0 +1,74 @@
+
+<ion-header>
+  <ion-navbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid *ngIf="getDatesSuccess">
+    <ion-list class="margin-top">
+      <ion-item *ngFor="let item of jsonResDates">
+        <h2>{{item.nombre}}</h2>
+        <h3>Tiempo de padecimiento:{{item.tiempo}}</h3>
+        <p *ngFor="let item2 of item.lstMedicinas">
+          {{item2.name}}
+        </p>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+  <ion-grid *ngIf="!getDatesSuccess">
+    <ion-row>
+      <p *ngIf="!descriptionAilment">
+        Ingrese los antecedentes medicos actuales y/o anteriores.
+      </p>
+      <p *ngIf="descriptionAilment">
+        {{descriptionAilment}}
+      </p>
+    </ion-row>
+    <ion-row>
+      <ion-item>
+        <ion-label color="theme">Tipo</ion-label>
+        <ion-select [(ngModel)]="type">
+          <ion-option value="{{item.name}}|{{item.id}}" *ngFor="let item of jsonResponses.typeAilments" (ionSelect)="typeOnChange($event)">{{item.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="theme">Padecimiento</ion-label>
+        <ion-select [(ngModel)]="suffering" disabled='{{disabledSuffering}}'>
+          <ion-option value="{{item.name}}|{{item.id}}" *ngFor="let item of jsonOptAilment" (ionSelect)="sufferingOnChange($event)">{{item.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="theme">Tiempo que lo padece</ion-label>
+        <ion-select [(ngModel)]="time" disabled='{{disabledTime}}'>
+          <ion-option value="{{item.desc}}|{{item.id}}" *ngFor="let item of jsonResponses.optTime" >{{item.desc}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        Medicamentos subministrados
+        <button ion-button round block (click)="selectMedicines(antMedicals.selectedMedicines)" >Seleccionar...</button>
+        <p>{{txtMedicaments}}</p>
+      </ion-item>
+    </ion-row>
+    <button ion-button round block class="margin-top" (click)= "addAntecedent()" *ngIf="isValidForm">Agregar</button>
+    <ion-list class="margin-top" *ngIf="antMedicals.lstAntecedents.length">
+      <ion-item-sliding *ngFor="let item of antMedicals.lstAntecedents">
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="assets/imgs/login/diente_login.jpg">
+          </ion-avatar>
+          <h2>{{item.suffering.name}}</h2>
+          <h3>Tiempo de padecimiento:{{item.time.value}}</h3>
+          <p>{{item.medicines.values}}</p>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button color="danger" (click) = "removeSuffering(item)">
+            <ion-icon name="trash"></ion-icon>
+            Eliminar
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+    <button ion-button round block *ngIf="antMedicals.lstAntecedents.length" class="button-bot" (click)="save()">Guardar</button>
+  </ion-grid>
+</ion-content>

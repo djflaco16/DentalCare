@@ -1,0 +1,29 @@
+page-appointment-pac {
+
+  ion-scroll {
+    white-space: nowrap;
+    height: 400px;
+  }
+
+  .card-md {
+    height: 90%;
+  }
+
+  .scroll-content {
+    height: 100%;
+  }
+
+  .img-paginador{
+    border: 2px solid;
+    margin: 1px;
+    padding: 1px;
+  }
+
+//Personalizadas
+.justify-text{
+  margin: 10px;
+  height: 90%;
+  text-align: justify;
+}
+
+}

@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar color="{{theme}}">
+    <button ion-button menuToggle right >
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>Citas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="sesion.typeUser == 2" padding>
+  <ion-list>
+    <div *ngFor="let odontologo of jsonResponses.odontologos">
+      <button ion-item (click)="openOdontologo(odontologo.idDr)">
+        <ion-avatar item-start>
+          <img src="{{odontologo.foto}}">
+        </ion-avatar>
+        <h3>Dr/Dra {{odontologo.nombre}} {{odontologo.paterno}} {{odontologo.materno}}</h3>
+        <h3>Contacto: {{odontologo.telefono}}</h3>
+        <p>Cedula: 876asd876</p>
+      </button>
+      <ion-card *ngIf="activeDr == odontologo.idDr">
+        <!-- <ion-item text-justify>
+          <p>El Dr/Dra {{odontologo.nombre}} {{odontologo.paterno}} {{odontologo.materno}} le realizo un apeticion para acceder a su historial medico el <a ion-text color="{{theme}}">XXXXXX</a>, la cual autozio el dia <a ion-text color="{{theme}}">Activa</a>, otorgandole la oportunidad de llevar a cabo un tratamiento con el/ella.</p>
+        </ion-item> -->
+        <div class="justify-text">
+          <p>El Dr/Dra {{odontologo.nombre}} {{odontologo.paterno}} {{odontologo.materno}} le realizo una peticion para acceder a su historial medico el <a ion-text color="{{theme}}">{{odontologo.fechPetAcceso}}</a>, la cual autozio el dia <a ion-text color="{{theme}}">{{odontologo.fechAutAcceso}}</a>, otorgandole la oportunidad de llevar a cabo un tratamiento con el/ella.</p>
+        </div>
+        <ion-card-header text-center>
+          <ion-card-title color="{{theme}}">Citas relacionadas</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <ion-scroll scrollY="true">
+              <ion-item *ngFor="let appointment of odontologo.citas">
+                <!-- <ion-avatar item-start>
+                  <img src="assets/imgs/generals/calendar.jh3eg">
+                </ion-avatar> -->
+                <h3><ion-icon name="calendar" color="{{theme}}"></ion-icon>  Fecha: {{appointment.fecha}}</h3>
+                <h3><ion-icon name="clock" color="{{theme}}"></ion-icon>  Horario: {{appointment.horaIni}} - {{appointment.horaFin}} </h3>
+                <h4 *ngIf="appointment.status == 1"><a ion-text color="{{theme}}">Activa</a></h4>
+                <p *ngIf="appointment.status == 2"><a ion-text color="danger">Cancelada por el paciente</a></p>
+                <p *ngIf="appointment.status == 3"><a ion-text color="danger">Cancelada por el medico</a></p>
+                <p *ngIf="appointment.status == 4"><a ion-text color="secondary">Concluida</a></p>
+                <p *ngIf="appointment.status == 5"><a ion-text color="danger">Cancelada por vencimiento</a></p>
+              </ion-item>
+            </ion-scroll>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,87 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <button ion-button menuToggle left >
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>Pacientes</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <form [formGroup]="formFindPx" (ngSubmit)="findPx()" novalidate>
+      <ion-item>
+        <ion-label color="primary" floating><ion-icon name="person" class="margin-rigth"></ion-icon>Nombre</ion-label>
+        <ion-input formControlName = "name" [(ngModel)]="name" maxlength="50" (keypress)="validationEvent.onlyLetterAndSpace($event)"></ion-input>
+      </ion-item>
+      <div *ngIf="formFindPx.get('name').errors && formFindPx.get('name').dirty">
+        <p class="error" *ngIf="formFindPx.get('name').hasError('minlength')">
+          El Nombre debe contener minimo 3 caracteres.
+        </p>
+      </div>
+      <ion-item>
+        <ion-label color="primary" floating><ion-icon name="male" class="margin-rigth"></ion-icon>Apellido paterno</ion-label>
+        <ion-input formControlName = "apPat" [(ngModel)]="apPat" maxlength="50" (keypress)="validationEvent.onlyLetter($event)"></ion-input>
+      </ion-item>
+      <div *ngIf="formFindPx.get('apPat').errors && formFindPx.get('apPat').dirty">
+        <p class="error" *ngIf="formFindPx.get('apPat').hasError('minlength')">
+          El Apellido debe contener minimo 4 caracteres.
+        </p>
+      </div>
+      <ion-item>
+        <ion-label color="primary" floating><ion-icon name="female" class="margin-rigth"></ion-icon>Apellido materno</ion-label>
+        <ion-input formControlName = "apMat" [(ngModel)]="apMat" (keypress)="validationEvent.onlyLetter($event)" maxlength="50"></ion-input>
+      </ion-item>
+      <div *ngIf="formFindPx.get('apMat').errors && formFindPx.get('apMat').dirty">
+        <p class="error" *ngIf="formFindPx.get('apMat').hasError('minlength')">
+          El Apellido debe contener minimo 4 caracteres.
+        </p>
+      </div>
+      <ion-item>
+        <ion-label color="primary" floating># Numero PX</ion-label>
+        <ion-input formControlName = "numPx" [(ngModel)]="numPx" maxlength="6" (keypress)="validationEvent.onlyNumber($event)"></ion-input>
+      </ion-item>
+      <div *ngIf="formFindPx.get('numPx').errors && formFindPx.get('numPx').dirty">
+        <p class="error" *ngIf="formFindPx.get('numPx').hasError('minlength')">
+          El Nombre debe contener minimo 3 caracteres.
+        </p>
+      </div>
+      <ion-item>
+        <ion-label color="primary" floating><ion-icon name="mail" class="margin-rigth"></ion-icon>Email</ion-label>
+        <ion-input formControlName = "email" [(ngModel)]="email" maxlength="50"></ion-input>
+      </ion-item>
+      <div *ngIf="formFindPx.get('email').errors && formFindPx.get('email').dirty">
+        <p class="error" *ngIf="formFindPx.get('email').hasError('email')">
+          El correo no es válido.
+        </p>
+      </div>
+      <!-- <ion-item>
+        <ion-label color="primary" floating><ion-icon name="calendar" class="margin-rigth"></ion-icon>Date</ion-label>
+        <ion-datetime displayFormat="DD/MMM/YYYY" formControlName = "date" [(ngModel)]="date" doneText="Seleccionar" cancelText="Cancelar"></ion-datetime>
+      </ion-item> -->
+      <!-- <button ion-button round block
+      type="submit" [disabled]="!formFindPx.valid" margin-top>Buscar
+    </button> -->
+  </form>
+</ion-grid>
+<ion-grid *ngIf="jsonResponses.patients">
+  <!-- <ion-row >
+    <p>Pacientes resutantes de tu busqueda</p>
+  </ion-row> -->
+    <ion-list>
+      <button ion-item (click)= "viewPx(patient)" *ngFor="let patient of jsonResponses.patients" block>
+        <ion-avatar item-start>
+          <img src="{{patient.foto}}" *ngIf="patient.foto">
+          <img src="assets/imgs/generals/sin_foto.jpeg" *ngIf="!patient.foto">
+        </ion-avatar>
+        <h2>{{patient.name}}</h2>
+        <p *ngIf="patient.statusAut == 4">Reenvio de autorización</p>
+        <p *ngIf="patient.statusAut == 2">El px no autorizó</p>
+        <p *ngIf="patient.statusAut == 1"> #PX: {{patient.id_px}}</p>
+        <p *ngIf="patient.statusAut == 0">Falta por autorizar</p>
+      </button>
+    </ion-list>
+</ion-grid>
+
+</ion-content>

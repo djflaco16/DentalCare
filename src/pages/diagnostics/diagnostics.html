@@ -1,0 +1,111 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <ion-title text-center>Diagnosticos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+ <ion-content padding>
+<!--  -->
+
+  <div>
+    <ion-segment [(ngModel)]="typeDiagnostico" color="{{theme}}">
+      <ion-segment-button value="agregar">
+        Agregar
+      </ion-segment-button>
+      <ion-segment-button value="viejos">
+        Viejos
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+  <div [ngSwitch]="typeDiagnostico">
+    <!-- Comienzan los div de agregar -->
+    <div *ngSwitchCase="'agregar'" class="margin-top" radio-group  >
+      <ion-grid>
+          <ion-row>
+            <ion-col col-7>
+              <p>Seleccione el padecimiento</p>
+            </ion-col>
+            <ion-col>
+              <button ion-button round block (click)="selectSuffering()" >Seleccionar</button>
+              {{nameSuffering}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-7>
+              <p>Seleccione el tratamiento</p>
+            </ion-col>
+            <ion-col>
+              <button ion-button round block (click)="selectTratament()" >Seleccionar</button>
+              {{nameTratament}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-7>
+              <p>Seleccione el diente</p>
+            </ion-col>
+            <ion-col>
+              <button ion-button round block (click)="selectTooth()" >Seleccionar</button>
+              {{numberTooth}}
+            </ion-col>
+          </ion-row>
+          <button ion-button round block (click)="addDiagnostics()" class="margin-top" *ngIf="(nameDiagnostic != '' && numberTooth != '') ">
+            Agregar al diagnostico
+          </button>
+          <div id="lstDiagnostics" *ngIf="jsonRequest.lstAddDiagnostic.length">
+            <ion-list class="margin-top" >
+              <ion-item-sliding *ngFor="let item of jsonRequest.lstAddDiagnostic">
+                <ion-item>
+                  <ion-avatar item-start>
+                    <img src="assets/imgs/sufferings/{{item.nameSuffering}}.jpeg">
+                  </ion-avatar>
+                  <h2>{{item.nameSuffering}}</h2>
+                  <h3>En el diente no. {{item.numberTooth}}</h3>
+                  <p>{{item.nameTeeth}}</p>
+                  <!--><ion-note item-end="" class="note">{{item.date}}</ion-note></!-->
+                </ion-item>
+                <ion-item-options side="right">
+                  <button ion-button color="danger" (click)="removeDiagnostic(item)">
+                    <ion-icon name="trash"></ion-icon>
+                    Eliminar
+                  </button>
+                </ion-item-options>
+              </ion-item-sliding>
+            </ion-list>
+            <button ion-button round block type="submit" (click)="saveDiagnostics()" class="button-bot">
+              Guardar
+            </button>
+          </div>
+        </ion-grid>
+    </div>
+    <!-- Comienzan los div de cargar viejos -->
+    <div *ngSwitchCase="'viejos'" class="margin-top" radio-group  >
+      <div id="lstDiagnostics" *ngIf="jsonResponses.diagnostics.length">
+        <ion-list class="margin-top" >
+          <div id="itemList" *ngFor="let diagnostic of jsonResponses.diagnostics">
+              <ion-item-sliding *ngFor="let diagDiente of diagnostic.lstDiagDiente">
+                <ion-item>
+                  <ion-avatar item-start>
+                    <img src="assets/imgs/sufferings/{{diagDiente.padecimiento}}.jpeg">
+                  </ion-avatar>
+                  <h3>{{diagDiente.padecimiento}}  ({{diagnostic.fecha}})</h3>
+                  <h4>No. {{diagDiente.numDiente}}: {{diagDiente.diente}}</h4>
+                  <h4>{{diagDiente.tratamiento}}</h4>
+                </ion-item>
+                <ion-item-options side="right">
+                  <button ion-button color="danger" (click)="deleteDiagnostic(diagDiente)">
+                    <ion-icon name="trash"></ion-icon>
+                    Eliminar
+                  </button>
+                </ion-item-options>
+              </ion-item-sliding>
+          </div>
+        </ion-list>
+      </div>
+      <div id="notDiagnostic" *ngIf="!haveDiagnostic">
+        {{msgError}}
+      </div>
+    </div>
+  </div>
+
+</ion-content>

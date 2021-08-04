@@ -1,0 +1,59 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>current</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-avatar item-start>
+      <img src="assets/imgs/generals/sin_foto.jpeg" *ngIf="sesion.photo == null || sesion.photo == ''">
+      <img src="{{sesion.photo}}" *ngIf="sesion.photo != null && sesion.photo != ''">
+    </ion-avatar>
+    <h2>Dr. {{sesion.name}} {{sesion.aPat}} {{sesion.aMat}}</h2>
+    <!-- <h3>asdasdasd</h3> -->
+    <p>Cedula: {{sesion.cedule}}</p>
+  </ion-item>
+
+  <ion-card *ngFor="let appointment of jsonResponses.appointmentsToday">
+    <ion-list color="{{theme}}">
+        <ion-item-sliding>
+          <ion-item>
+            <ion-avatar item-start>
+              <img src="{{appointment.foto}}" *ngIf="appointment.appointment">
+              <img src="assets/imgs/generals/sin_foto.jpeg" *ngIf="!appointment.appointment">
+            </ion-avatar>
+            <h4>{{appointment.nombre}} {{appointment.paterno}} {{appointment.materno}}</h4>
+            <p><ion-icon name="calendar" color="{{theme}}"></ion-icon>     {{appointment.fecha}}</p>
+            <p><ion-icon name="time" color="{{theme}}"></ion-icon>     {{appointment.horaIni}} - {{appointment.horaFin}}</p>
+            <p *ngIf="appointment.status == 1">Status: <a ion-text color="{{theme}}">Activa</a></p>
+            <p *ngIf="appointment.status == 2">Status: <a ion-text color="danger">Cancelada por el paciente</a></p>
+            <p *ngIf="appointment.status == 3">Status: <a ion-text color="danger">Cancelada por el medico</a></p>
+            <p *ngIf="appointment.status == 4">Status: <a ion-text color="secondary">Concluida</a></p>
+            <p *ngIf="appointment.status == 5">Status: <a ion-text color="danger">Cancelada por vencimiento</a></p>
+          </ion-item>
+          <ion-item-options side="left" *ngIf="appointment.status == 1">
+            <button ion-button color="secondary" (click)="changeStausAppointment(4,appointment.idCita)">
+              <ion-icon name="checkmark-circle-outline"></ion-icon>
+              Concluir
+            </button>
+            <button ion-button color="danger" (click)="changeStausAppointment(3,appointment.idCita)" >
+              <ion-icon name="trash"></ion-icon>
+              Cancelar
+            </button>
+          </ion-item-options>
+          <ion-item-options side="light" *ngIf="appointment.status == 1">
+            <button ion-button color="primary" (click)="updateAppointment(appointment)">
+              <ion-icon name="open"></ion-icon>
+              Cambiar cita
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+  </ion-card>
+
+</ion-content>

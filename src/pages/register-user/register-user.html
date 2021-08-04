@@ -1,0 +1,196 @@
+
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <ion-title text-center>Registro </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+   <!-- photo -->
+   <ion-card>
+    <ion-card-header>
+      <ion-item color="{{theme}}">
+        <ion-avatar item-start>
+          <img src="assets/imgs/generals/sin_foto.jpeg" *ngIf="foto == 'vacio'">
+          <img src="{{foto}}" *ngIf="foto != 'vacio'">
+        </ion-avatar>
+        <h2>Fotografia</h2>
+        <ion-note item-end>10/11/2020</ion-note>
+      </ion-item>
+    </ion-card-header>
+    <ion-card-content>
+        <img src="assets/imgs/generals/sin_foto.jpeg" *ngIf="foto == '' && showPhoto">
+        <img src="{{foto}}" *ngIf="foto != 'vacio' && showPhoto">
+      <p>Esta foto quedara registrada como la foto principal del expediente</p>
+      <ion-row>
+        <ion-col >
+          <button ion-button icon-start clear small (click)="loadPhoto(1)">
+            <ion-icon name="camera"></ion-icon>
+            <div>Tomar foto</div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-start clear small (click)="loadPhoto(0)">
+            <ion-icon name="images"></ion-icon>
+            <div>Seleccionar foto</div>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  <!-- Formulario -->
+  <form [formGroup]="formFichaIdentificacion" (ngSubmit)="register()"  novalidate>
+    <ion-grid>
+
+      <!-- Formulario datos generales -->
+      <ion-row class = "back-color-menu">
+        <ion-col >
+          <ion-icon name="contact" class="margin-rigth" ></ion-icon>Datos Generales
+        </ion-col>
+        <ion-item>
+          <ion-label color="primary" floating><ion-icon name="person" class="margin-rigth"></ion-icon>Nombre</ion-label>
+          <ion-input formControlName = "name" [(ngModel)]="name" maxlength="50" (keypress)="validationEvent.onlyLetterAndSpace($event)"></ion-input>
+        </ion-item>
+        <div *ngIf="formFichaIdentificacion.get('name').errors && formFichaIdentificacion.get('name').dirty">
+          <p class="error" *ngIf="formFichaIdentificacion.get('name').hasError('minlength')">
+            El Nombre debe contener minimo 3 caracteres.
+          </p>
+        </div>
+        <ion-item>
+          <ion-label color="primary" floating><ion-icon name="male" class="margin-rigth"></ion-icon>Apellido paterno</ion-label>
+          <ion-input formControlName = "apPat" [(ngModel)]="apPat" maxlength="50" (keypress)="validationEvent.onlyLetter($event)"></ion-input>
+        </ion-item>
+        <div *ngIf="formFichaIdentificacion.get('apPat').errors && formFichaIdentificacion.get('apPat').dirty">
+          <p class="error" *ngIf="formFichaIdentificacion.get('apPat').hasError('minlength')">
+            El Apellido paterno debe contener minimo 4 caracteres.
+          </p>
+        </div>
+        <ion-item>
+          <ion-label color="primary" floating><ion-icon name="female" class="margin-rigth"></ion-icon>Apellido materno</ion-label>
+          <ion-input formControlName = "apMat" [(ngModel)]="apMat" (keypress)="validationEvent.onlyLetter($event)" maxlength="50"></ion-input>
+        </ion-item>
+        <div *ngIf="formFichaIdentificacion.get('apMat').errors && formFichaIdentificacion.get('apMat').dirty">
+          <p class="error" *ngIf="formFichaIdentificacion.get('apMat').hasError('minlength')">
+            El Apellido materno debe contener minimo 4 caracteres.
+          </p>
+        </div>
+        <ion-item>
+          <ion-label color="primary" floating><ion-icon name="mail" class="margin-rigth"></ion-icon>Email</ion-label>
+          <ion-input formControlName = "email" [(ngModel)]="email" maxlength="50"></ion-input>
+        </ion-item>
+        <div *ngIf="formFichaIdentificacion.get('email').errors && formFichaIdentificacion.get('email').dirty">
+          <p class="error" *ngIf="formFichaIdentificacion.get('email').hasError('email')">
+            El correo no es válido.
+          </p>
+        </div>
+        <ion-item>
+          <ion-label color="primary" floating><ion-icon name="call" class="margin-rigth"></ion-icon>Telefono</ion-label>
+          <ion-input formControlName = "phone" [(ngModel)]="phone" maxlength="10" (keypress)="validationEvent.onlyNumber($event)"></ion-input>
+        </ion-item>
+        <div *ngIf="formFichaIdentificacion.get('phone').errors && formFichaIdentificacion.get('phone').dirty">
+          <p class="error" *ngIf="formFichaIdentificacion.get('phone').hasError('minlength')">
+            El telefono debe contener 10 digitos.
+          </p>
+        </div>
+         <!-- Only dr -->
+         <ion-item *ngIf="typeReg=='dent'">
+          <ion-label color="primary" floating>Cedula</ion-label>
+          <ion-input formControlName = "profeLic" [(ngModel)]="profeLic" (keypress)="validationEvent.onlyNumber($event)" maxlength="5"></ion-input>
+        </ion-item>
+        <div *ngIf="formFichaIdentificacion.get('profeLic').errors && formFichaIdentificacion.get('profeLic').dirty">
+          <p class="error" *ngIf="formFichaIdentificacion.get('profeLic').hasError('required')">
+            Campo requerido.
+          </p>
+          <p class="error" *ngIf="formFichaIdentificacion.get('profeLic').hasError('minlength')">
+            Debe ser de 5 digitos.
+          </p>
+        </div>
+      </ion-row>
+      <!-- Formulario de la direccion -->
+      <!--><ion-row  class = "back-color-menu" *ngIf=" typeReg == 'px' "></!-->
+      <ion-row  class = "back-color-menu" >
+        <ion-col>
+          <ion-icon name="home" class="margin-rigth"></ion-icon> Direccion
+        </ion-col>
+        <ion-item>
+          <ion-label color="primary" floating class="margin-rigth">Calle</ion-label>
+          <ion-input formControlName = "calle" [(ngModel)]="calle" (keypress)="validationEvent.numberAndLetter($event)"></ion-input>
+        </ion-item>
+        <div *ngIf="formFichaIdentificacion.get('calle').errors && formFichaIdentificacion.get('calle').dirty">
+          <p class="error" *ngIf="formFichaIdentificacion.get('calle').hasError('required')">
+            Campo requerido.
+          </p>
+        </div>
+        <ion-item>
+          <ion-label color="primary" floating>Número</ion-label>
+          <ion-input formControlName = "num" [(ngModel)]="num" maxlength="6" (keypress)="validationEvent.onlyNumber($event)"></ion-input>
+        </ion-item>
+        <div *ngIf="formFichaIdentificacion.get('num').errors && formFichaIdentificacion.get('num').dirty">
+          <p class="error" *ngIf="formFichaIdentificacion.get('num').hasError('required')">
+            Campo requerido.
+          </p>
+        </div>
+        <ion-item>
+          <ion-label color="primary" floating>Colonia</ion-label>
+          <ion-input  formControlName = "col" [(ngModel)]="col" (keypress)="validationEvent.numberAndLetter($event)" maxlength="50"></ion-input>
+        </ion-item>
+        <div *ngIf="formFichaIdentificacion.get('col').errors && formFichaIdentificacion.get('col').dirty">
+          <p class="error" *ngIf="formFichaIdentificacion.get('col').hasError('required')">
+            Campo requerido.
+          </p>
+        </div>
+        <ion-item>
+          <ion-label color="primary" floating>Delegación</ion-label>
+          <ion-input formControlName = "del" [(ngModel)]="del" (keypress)="validationEvent.onlyLetterAndSpace($event)" maxlength="50"></ion-input>
+        </ion-item>
+        <div *ngIf="formFichaIdentificacion.get('del').errors && formFichaIdentificacion.get('del').dirty">
+          <p class="error" *ngIf="formFichaIdentificacion.get('del').hasError('required')">
+            Campo requerido.
+          </p>
+        </div>
+        <ion-item>
+          <ion-label color="primary" floating>C.P.</ion-label>
+          <ion-input formControlName = "cp" [(ngModel)]="cp" (keypress)="validationEvent.onlyNumber($event)" maxlength="5"></ion-input>
+        </ion-item>
+        <div *ngIf="formFichaIdentificacion.get('cp').errors && formFichaIdentificacion.get('cp').dirty">
+          <p class="error" *ngIf="formFichaIdentificacion.get('cp').hasError('required')">
+            Campo requerido.
+          </p>
+          <p class="error" *ngIf="formFichaIdentificacion.get('cp').hasError('minlength')">
+            Debe ser de 5 digitos.
+          </p>
+        </div>
+      </ion-row>
+      <!--Form dates cta -->
+      <ion-row  class = "back-color-menu">
+        <ion-col>
+          <ion-icon name="home" class="margin-rigth"></ion-icon> Datos sesion
+        </ion-col>
+        <ion-item>
+          <ion-label color="primary" floating class="margin-rigth">Usuario</ion-label>
+          <ion-input formControlName = "user" [(ngModel)]="user" (keypress)="validationEvent.numberAndLetter($event)"></ion-input>
+        </ion-item>
+        <div *ngIf="formFichaIdentificacion.get('user').errors && formFichaIdentificacion.get('user').dirty">
+          <p class="error" *ngIf="formFichaIdentificacion.get('user').hasError('required')">
+            Campo requerido.
+          </p>
+        </div>
+        <ion-item>
+          <ion-label color="primary" floating>Contraseña</ion-label>
+          <ion-input formControlName = "psw" [(ngModel)]="psw" maxlength="15" (keypress)="validationEvent.numberAndLetter($event)"></ion-input>
+        </ion-item>
+        <div *ngIf="formFichaIdentificacion.get('psw').errors && formFichaIdentificacion.get('psw').dirty">
+          <p class="error" *ngIf="formFichaIdentificacion.get('psw').hasError('required')">
+            Campo requerido.
+          </p>
+        </div>
+      </ion-row>
+      <!-- End Form dates cta-->
+      <ion-row class="margin-top">
+        <button ion-button round block
+        type="submit" [disabled]="!formFichaIdentificacion.valid" >Ingresar
+      </button>
+    </ion-row>
+  </ion-grid>
+</form>
+</ion-content>
